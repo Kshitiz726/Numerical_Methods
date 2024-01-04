@@ -1,73 +1,69 @@
+// Numerical Method: Bisection Method
+
 #include <stdio.h>
 #include <math.h>
-#define e 0.00001
-int option;
+#include <stdlib.h>
 
-int get_option()
+float f(float x)
 {
-    return option;
+    return pow(5,x) - 6*x; //update here , according to your question (equation)
 }
 
-double func(double x, int option){
-    switch(option)
-    {
-        case 1: 
-         return x*x - 3*x +2;
-         break;
-        case 2:
-         return x * log10(x) - 1.2;
-         break;
-        case 3:
-         return x * log(x) - 1.2;
-         break;
-        case 4:
-         return 3 * x -  cos(x) + 1;
-         break;
-        case 5:
-         return x * exp(-x) - cos(x);
-         break;
-        case 6:
-         return 0.333;
-         break;
-
-         default:
-         return 0.2;
-    }
-}
-
-double bisection(double a, double b)
+int main()
 {
-    if(func(a,get_option()) * func(b, get_option()) >= 0){
-        printf("Incorrect interval");
-        return 0;
-    }
-    double c = a;
-    while ((b-a) >= e)
+    float x0, x1, x2, f0, f1, f2, e;
+    int N, iteration = 1;
+
+    while(1)
     {
-        c = (a+b) /2;
-        if(func(c, get_option()) == 0.0){
-            break;
-        }else if(func(c, get_option()) * func(a, get_option()) < 0)
+        printf("Enter initial guesses: ");
+        scanf("%f%f", &x0, &x1);
+        f0 = f(x0);
+        f1 = f(x1);
+        if (f0 * f1 < 0.0)
         {
-            b = c;
+            break;
         }
-        else{
-            a = c;
-        }
+        printf("Incorrect Initial Guesses.\n");
     }
-    return c;
-}
 
-int main(){
-    printf("Choose the equation to find the root of :\n1)x^2 - 3x +2\n2)xlog10(x) - 1.2 \n3)xln(x) - 1.2 \n4)3x -  cos(x) + 1 \n5)xe^(-x) - cos(x)\n6)1/3\n");
-    printf("Question Number: ");
-    scanf("%d", &option);
-    //modify the interval accordingly, and can make it dynamic....
-    double a = 0.5;
-    double b = 1.5;
-    printf("Root is: %f\n"  ,bisection(a,b));
-    double c  = 1.5 ;
-    double d = 2.5;
-    printf("Root is: %f\n"  ,bisection(c,d));
-    return 0;
+    printf("Enter tolerable error: ");
+    scanf("%f", &e);
+    printf("Enter maximum iteration: ");
+    scanf("%d", &N);
+    printf("------------------------------------------------------------------\n");
+    printf("--------------------------THA078BCT021-----------------------------\n");
+    printf("------------------------------------------------------------------\n");
+    printf("\n------------------------------------------------------------------\n");
+    printf("SN\t\tx0\t\tx1\t\tx2\n");
+    printf("------------------------------------------------------------------\n");
+
+    do
+    {
+        x2 = (x0 + x1) / 2;
+        f2 = f(x2);
+
+        printf("%d\t\t%f\t%f\t%f\n", iteration, x0, x1, x2);
+
+        if (f0 * f2 < 0)
+        {
+            x1 = x2;
+            f1 = f2;
+        }
+        else
+        {
+            x0 = x2;
+            f0 = f2;
+        }
+
+        iteration++;
+        if (iteration > N)
+        {
+            printf("Solution does not converge\n");
+            exit(1);
+        }
+    } while (fabs(f2) > e);
+
+    printf("------------------------------------------------------------------\n");
+    printf("\nRoot is: %f\n", x2);
 }
