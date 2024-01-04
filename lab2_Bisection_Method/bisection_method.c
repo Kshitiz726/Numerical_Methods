@@ -62,6 +62,7 @@ int main(){
     printf("Choose the equation to find the root of :\n1)x^2 - 3x +2\n2)xlog10(x) - 1.2 \n3)xln(x) - 1.2 \n4)3x -  cos(x) + 1 \n5)xe^(-x) - cos(x)\n6)1/3\n");
     printf("Question Number: ");
     scanf("%d", &option);
+    //modify the interval accordingly, and can make it dynamic....
     double a = 0.5;
     double b = 1.5;
     printf("Root is: %f\n"  ,bisection(a,b));
